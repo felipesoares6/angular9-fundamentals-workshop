@@ -18,7 +18,7 @@ export class CoursesService {
   }
 
   find(courseId: number) {
-    return this.courses.find(c => c.id === courseId);
+    return this.http.get(this.getUrlById(courseId));
   }
 
   create(course) {
@@ -26,20 +26,18 @@ export class CoursesService {
   }
 
   update(course) {
-    const newCourses = this.courses;
-    let courseUpdated = newCourses.find(course => course.id == course.id);
-
-    courseUpdated = course;
-
-    this.courses = [course];
+    return this.http.put(this.getUrlById(course.id), course);
   }
 
   delete(courseId) {
-    const filteredCourses = this.courses.filter(course => course.id !== courseId);
-    this.courses = filteredCourses;
+    return this.http.delete(this.getUrlById(courseId));
   }
 
   private getUrl() {
     return `${BASE_URL}${this.model}`;
+  }
+
+  private getUrlById(id) {
+    return `${this.getUrl()}/${id}`;
   }
 }
