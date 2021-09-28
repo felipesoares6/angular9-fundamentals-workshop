@@ -1,12 +1,34 @@
 <mat-card>
     <mat-card-header>
       <mat-card-title>
-        Course Outline
+        {{ title }}
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
 
-      <!-- LESSON LIST -->
+      <mat-list>
+        <mat-list-item (click)="selectLesson(lesson)" *ngFor="let lesson of courseLessons">
+          {{ lesson.title }}
+        </mat-list-item>
+      </mat-list>
+
+      <span [style.color]="themeColor">current theme is {{ themeColor }} </span>
+
+      <mat-form-field class="example-form-field" appearance="fill">
+        <mat-label>Update the theme color:</mat-label>
+        <input matInput type="text" [(ngModel)]="themeColor">
+        <button *ngIf="themeColor" matSuffix mat-icon-button aria-label="Clear" (click)="clearInput('themeColor')">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+
+
+      <p *ngIf="currentLesson; else elseBlock">
+        {{ currentLesson | json }}
+      </p>
+      <ng-template #elseBlock>
+        currently there is no lesson selected
+      </ng-template>
       
     </mat-card-content>
   </mat-card>
