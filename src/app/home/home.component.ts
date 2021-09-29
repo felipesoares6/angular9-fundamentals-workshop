@@ -9,9 +9,9 @@ import { LessonsService } from '../shared/services/lessons.service';
 export class HomeComponent implements OnInit {
   title = 'Home';
   currentLesson = null;
+  lessons = [];
 
   themeColor = 'red';
-  lessons = [];
 
   clearInput (input: string) {
     this[input] = "";

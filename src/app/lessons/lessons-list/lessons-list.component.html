@@ -1,0 +1,5 @@
+<mat-list>
+  <mat-list-item (click)="selected.emit(lesson)" *ngFor="let lesson of lessons">
+    {{ lesson.title }}
+  </mat-list-item>
+</mat-list>
