@@ -1,14 +1,32 @@
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { CoursesService } from '../shared/services/courses.service';
 
 import { CoursesComponent } from './courses.component';
+
+const coursesServiceStub = {
+  all: () => {
+    return {
+      subscribe: () => {}
+    }
+  },
+  delete: (id: number) => {
+    return {
+      subscribe: () => {}
+    }
+  }
+};
 
 describe('CoursesComponent', () => {
   let component: CoursesComponent;
   let fixture: ComponentFixture<CoursesComponent>;
+  let de: DebugElement;
+  let coursesService: CoursesService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CoursesComponent ]
+      declarations: [ CoursesComponent ],
+      providers: [ { provide: CoursesService, useValue: coursesServiceStub }]
     })
     .compileComponents();
   }));
@@ -17,9 +35,20 @@ describe('CoursesComponent', () => {
     fixture = TestBed.createComponent(CoursesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    de = fixture.debugElement;
+    coursesService = de.injector.get(CoursesService);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call coursesService.delete on delete', () => {
+    spyOn(coursesService, 'delete').and.callThrough();
+
+    component.deleteCourse(1);
+
+    expect(coursesService.delete).toHaveBeenCalledWith(1);
   });
 });
